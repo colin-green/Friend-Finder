@@ -1,0 +1,11 @@
+var friendArray = [
+    {
+        name:"Ahmed",
+        photo:"https://static.techspot.com/images2/news/bigimage/2019/01/2019-01-14-image-6.jpg",
+        scores:[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]
+    }
+];
+  
+  // Note how we export the array. This makes it accessible to other files using require.
+  module.exports = friendArray;
+  
