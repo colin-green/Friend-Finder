@@ -154,8 +154,34 @@
                     <i class="material-icons right">send</i>
                 </button>
         </div>
-
     </div>
+
+    <!-- Modal Structure -->
+  <div id="bestMatchModal" class="modal">
+        <div class="modal-content">
+          <h4 id="bestMatchName"></h4>
+          <img id="bestMatchPhoto" height="300">
+        </div>
+      </div>
+
+    <footer class="page-footer green">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <a href="/api/friends" class="white-text">API Friends List</a>
+                    <br>
+                    <a href="#" class="white-text">GitHub Repository</a>
+                    <br><br>
+                    <a href="/api/clear" class="white-text">Clear API Friends List</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+            Made by <a class="green-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            </div>
+        </div>
+    </footer>
 
     <!-- jQuery -->
     <script
@@ -167,22 +193,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="text/javascript">
+        $(document).ready(function(){
+            $('.modal').modal();
+        });
+
         $('#submit').click(function(event) {
 
             event.preventDefault();
 
-            var newFriend = {
+            // Make sure form is filled out
+            var valid = true;
+
+            if ($("#name").val() == "" || $("#photo-image").val() == "" || $("#q1").val() == null || $("#q2").val() == null || $("#q3").val() == null || $("#q4").val() == null || $("#q5").val() == null || $("#q6").val() == null || $("#q7").val() == null || $("#q8").val() == null || $("#q9").val() == null || $("#q10").val() == null) {
+                valid = false;
+            }
+
+            if (valid) {
+                var newFriend = {
                 name: $('#name').val().trim(),
                 photo: $('#photo-image').val().trim(),
-                scores: [Number($('#q1').val()), Number($('#q2').val()), Number($('#q3').val()), Number($('#q4').val()), Number($('#q5').val()), Number($('#q6').val()), Number($('#q7').val()), Number($('#q8').val()), Number($('#q9').val()), Number($('#q10').val())]
+                scores: [$('#q1').val(), $('#q2').val(), $('#q3').val(), $('#q4').val(), $('#q5').val(), $('#q6').val(), $('#q7').val(), $('#q8').val(), $('#q9').val(), $('#q10').val()]
             }
+
+            newFriend.scores = newFriend.scores.map(Number);
 
             console.log(newFriend);
 
             $.post("/api/friends", newFriend, function(data) {
 
                 console.log("Data: ", data);
-                alert("Form submitted.");
+
+                $("#bestMatchName").text(`Say Hello to your new friend: ${data.name}!`);
+                $("#bestMatchPhoto").attr("src", data.photo);
+                $("#bestMatchPhoto").attr("alt", data.name);
+                $("#bestMatchModal").modal("open");
 
                 $('#name').val('');
                 $('#photo-image').val('');
@@ -198,6 +242,9 @@
                 $('#q10').val('');
 
             })
+            } else {
+                alert("Please fill out all of the fields, then try again.");
+            }
 
         })
     </script>
