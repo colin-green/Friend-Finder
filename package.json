@@ -19,7 +19,6 @@
 	"bugs": {
 		"url": "https://github.com/colin-green/Friend-Finder/issues"
 	},
-	"homepage": "https://github.com/colin-green/Friend-Finder#readme",
 	"dependencies": {
 		"express": "^4.17.1"
 	},
